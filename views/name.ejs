@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello EJS</title>
+    <style>
+        .preserve-whitespace {
+            white-space: pre-line;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 18px; /* Adjust the font size as needed */
+            margin-bottom: 8px; /* Adjust the spacing between label and input */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px; /* Adjust the padding as needed */
+            font-size: 16px; /* Adjust the font size as needed */
+            box-sizing: border-box;
+            margin-bottom: 16px; /* Adjust the spacing between inputs */
+        }
+
+        button {
+            padding: 12px 20px; /* Adjust the padding for buttons */
+            font-size: 18px; /* Adjust the font size for buttons */
+        }
+    </style>
+</head>
+<body>
+    <a href="http://localhost:3000/"><strong>HOME</strong></a>
+    <h2>Hello Bro, <%= name %>!</h2>
+    <form id="commandForm">
+        <label for="directoryInput">Directory:</label>
+        <input type="text" id="directoryInput" name="directory" required>
+        <br>
+        <label for="commandInput">Command:</label>
+        <input type="text" id="commandInput" name="command" required>
+        <br>
+        <button onclick="submitForm()">Submit</button>
+    </form>
+
+    <div class="preserve-whitespace"><%= result %></div>
+    
+
+
+    <h2>Download / Upload</h2>
+    <form id="DUForm">
+        <label for="Source">Source:</label>
+        <input type="text" id="Source" name="Source" required>
+        <br>
+        <label for="Destination">Destination:</label>
+        <input type="text" id="Destination" name="Destination" required>
+        <br>
+        <button onclick="duForm(1)">Download</button>
+        <button onclick="duForm(0)">Upload</button>
+    </form>
+
+    <div class="preserve-whitespace"><%= resultdu %></div>
+
+
+
+    <script>
+        function duForm(du) {
+            const source = document.getElementById('Source').value;
+            const destination = document.getElementById('Destination').value;
+    
+            try {
+                fetch('/owl3', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ destination: destination, source: source, nd: "<%= name %>", du:du}),
+                })
+                .then(response => response.json())
+                .then(result => {
+                    
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function submitForm() {
+            const directory = document.getElementById('directoryInput').value;
+            const command = document.getElementById('commandInput').value;
+    
+            try {
+                fetch('/owl2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ dir: directory, com: command, nd: "<%= name %>" }),
+                })
+                .then(response => response.json())
+                .then(result => {
+                   
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EJS Map Object Example</title>
+</head>
+<body>
+  <% list.forEach(directory => { %>
+    <form action="/directory" method="post">
+      <button name="directory" value="<%= directory %>" type="submit"><%= directory %></button>
+    </form>
+  <% }); %>
+  <h1>My Sockets:</h1>
+  <img src="../<%= img %>" style="height:200px" alt="" onerror="if (!this.complete) this.style.display='none';">
+  <% if (Object.keys(data).length > 0) { %>
+    <ul>
+      <% Object.keys(data).forEach(key => { %>
+        <li><a href="person/<%= key %>"><strong><%= key %></strong></a>: <%= data[key].id %> <% if (data[key].connected) { %>
+            <p>Status: Connected</p>
+            <button type="submit" value="<%= data[key].id %>" onclick="sendPostRequest('<%= data[key].id %>',1)">Save</button>
+            <button type="submit" value="<%= data[key].id %>" onclick="sendPostRequest('<%= data[key].id %>',0)">Temp</button>
+          <% } else { %>
+            <p>Last Online: <%= data[key].lastonline %></p>
+          <% } %> </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No data available.</p>
+  <% } %>
+</body>
+<script>
+  async function sendPostRequest(userId,save) {
+      fetch('/owl', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Id:userId,save:save }),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        
+      });
+    }
+  </script>
+</html>
