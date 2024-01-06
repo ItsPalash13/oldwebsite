@@ -36,7 +36,7 @@
 <body>
     <a href="http://localhost:3000/"><strong>HOME</strong></a>
     <h2>Hello Bro, <%= name %>!</h2>
-    <form id="commandForm">
+   
         <label for="directoryInput">Directory:</label>
         <input type="text" id="directoryInput" name="directory" required>
         <br>
@@ -44,14 +44,14 @@
         <input type="text" id="commandInput" name="command" required>
         <br>
         <button onclick="submitForm()">Submit</button>
-    </form>
+    
 
     <div class="preserve-whitespace"><%= result %></div>
     
 
 
     <h2>Download / Upload</h2>
-    <form id="DUForm">
+
         <label for="Source">Source:</label>
         <input type="text" id="Source" name="Source" required>
         <br>
@@ -60,7 +60,7 @@
         <br>
         <button onclick="duForm(1)">Download</button>
         <button onclick="duForm(0)">Upload</button>
-    </form>
+
 
     <div class="preserve-whitespace"><%= resultdu %></div>
 
